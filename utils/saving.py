@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 import datetime
 
 def save_model_history(hist, fpath):

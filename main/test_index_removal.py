@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 from conv_qsar_fast.utils.parse_cfg import read_config
 from conv_qsar_fast.utils.parsing import input_to_bool
 from conv_qsar_fast.utils.neural_fp import sizeAttributeVector

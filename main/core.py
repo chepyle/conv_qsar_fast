@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 from conv_qsar_fast.utils.saving import save_model_history, save_model_history_manual
 from conv_qsar_fast.utils.neural_fp import sizeAttributeVectors
 from keras.models import Sequential, Model, model_from_json
@@ -299,7 +299,7 @@ def train_model(model, data, nb_epoch = 0, batch_size = 1, lr_func = None, patie
 	# Create learning rate function
 	if lr_func:
 		lr_func_string = 'def lr(epoch):\n    return {}\n'.format(lr_func)
-		exec lr_func_string
+		exec(lr_func_string)
 
 
 	# Fit (allows keyboard interrupts in the middle)
@@ -321,7 +321,7 @@ def train_model(model, data, nb_epoch = 0, batch_size = 1, lr_func = None, patie
 
 				# Run through training set
 				if verbose: print('Training...')
-				training_order = range(len(mols_train))
+				training_order = list(range(len(mols_train)))
 				np.random.shuffle(training_order)
 				for j in training_order:
 					single_mol = mols_train[j]

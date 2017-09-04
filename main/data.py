@@ -17,9 +17,9 @@ def get_data_full(data_label = '', **kwargs):
 			all_data = data
 
 	print('AFTER MERGING DATASETS...')
-	print('# training: {}'.format(len(all_data[0]['y'])))
-	print('# validation: {}'.format(len(all_data[1]['y'])))
-	print('# testing: {}'.format(len(all_data[2]['y'])))
+	print(('# training: {}'.format(len(all_data[0]['y']))))
+	print(('# validation: {}'.format(len(all_data[1]['y']))))
+	print(('# testing: {}'.format(len(all_data[2]['y']))))
 
 	return all_data
 
@@ -95,7 +95,7 @@ def get_data_one(data_label = '', shuffle_seed = None, batch_size = 1,
 		y_label = 'Tm (deg C)'
 
 	elif 'nr' in data_label or 'sr' in data_label:
-		print('Assuming TOX21 data {}'.format(data_label))
+		print(('Assuming TOX21 data {}'.format(data_label)))
 		delimeter = '\t'
 		dset = data_label
 		data_fpath = os.path.join(data_froot, '{}.smiles'.format(data_label))
@@ -150,7 +150,7 @@ def get_data_one(data_label = '', shuffle_seed = None, batch_size = 1,
 
 	# Other?
 	else:
-		print('Unrecognized data_label {}'.format(data_label))
+		print(('Unrecognized data_label {}'.format(data_label)))
 		quit(1)
 
 
@@ -169,7 +169,7 @@ def get_data_one(data_label = '', shuffle_seed = None, batch_size = 1,
 	# Truncate if necessary
 	if truncate_to is not None:
 		data = data[:truncate_to]
-		print('truncated data to first {} samples'.format(truncate_to))
+		print(('truncated data to first {} samples'.format(truncate_to)))
 
 	# Get new shuffle seed if possible
 	if shuffle_seed is not None:
@@ -200,7 +200,7 @@ def get_data_one(data_label = '', shuffle_seed = None, batch_size = 1,
 			elif use_fp == 'Morgan2':
 				mat_features = np.array(AllChem.GetMorganFingerprintAsBitVect(mol,2,nBits=512,useFeatures=True))
 			elif type(use_fp) != type(None):
-				print('Unrecognised use_FP option {}'.format(use_fp))
+				print(('Unrecognised use_FP option {}'.format(use_fp)))
 
 			if 'tox21' not in dset:
 				this_y = y_func(float(row[y_index]))
@@ -219,7 +219,7 @@ def get_data_one(data_label = '', shuffle_seed = None, batch_size = 1,
 
 			elif smiles.count(smiles[-1]) > 1:
 				print('**** DUPLICATE ENTRY ****')
-				print(smiles[-1])
+				print((smiles[-1]))
 
 				indices = [x for x in range(len(smiles)) if smiles[x] == smiles[-1]]
 				y[indices[0]] = (y[indices[0]] + this_y) / 2.
@@ -230,7 +230,7 @@ def get_data_one(data_label = '', shuffle_seed = None, batch_size = 1,
 
 
 		except Exception as e:
-			print('Failed to generate graph for {}, y: {}'.format(row[smiles_index], row[y_index]))
+			print(('Failed to generate graph for {}, y: {}'.format(row[smiles_index], row[y_index])))
 			print(e)
 
 	###################################################################################
@@ -238,7 +238,7 @@ def get_data_one(data_label = '', shuffle_seed = None, batch_size = 1,
 	###################################################################################
 
 	if 'ratio' in data_split: # split train/notrain
-		print('Using first fraction ({}) as training'.format(training_ratio))
+		print(('Using first fraction ({}) as training'.format(training_ratio)))
 		# Create training/development split
 		division = int(len(mols) * training_ratio)
 		mols_train = mols[:division]
@@ -255,9 +255,9 @@ def get_data_one(data_label = '', shuffle_seed = None, batch_size = 1,
 		mols_test   = mols_notrain[(len(mols_notrain) / 2):] # second half
 		y_test      = y_notrain[(len(mols_notrain) / 2):] # second half
 		smiles_test = smiles_notrain[(len(mols_notrain) / 2):] # second half
-		print('Training size: {}'.format(len(mols_train)))
-		print('Validation size: {}'.format(len(mols_val)))
-		print('Testing size: {}'.format(len(mols_test)))
+		print(('Training size: {}'.format(len(mols_train))))
+		print(('Validation size: {}'.format(len(mols_val))))
+		print(('Testing size: {}'.format(len(mols_test))))
 
 	elif 'all_train' in data_split: # put everything in train 
 		print('Using ALL as training')
@@ -271,9 +271,9 @@ def get_data_one(data_label = '', shuffle_seed = None, batch_size = 1,
 		mols_test   = []
 		y_test      = []
 		smiles_test = []
-		print('Training size: {}'.format(len(mols_train)))
-		print('Validation size: {}'.format(len(mols_val)))
-		print('Testing size: {}'.format(len(mols_test)))
+		print(('Training size: {}'.format(len(mols_train))))
+		print(('Validation size: {}'.format(len(mols_val))))
+		print(('Testing size: {}'.format(len(mols_test))))
 
 	elif 'cv' in data_split: # cross-validation
 		# Default to first fold of 5-fold cross-validation
@@ -289,14 +289,14 @@ def get_data_one(data_label = '', shuffle_seed = None, batch_size = 1,
 
 		# Get target size of each fold
 		N = len(mols)
-		print('Total of {} mols'.format(N))
+		print(('Total of {} mols'.format(N)))
 		target_fold_size = int(np.ceil(float(N) / folds))
 		# Split up data
 		folded_mols 	= [mols[x:x+target_fold_size]   for x in range(0, N, target_fold_size)]
 		folded_y 		= [y[x:x+target_fold_size]      for x in range(0, N, target_fold_size)]
 		folded_smiles 	= [smiles[x:x+target_fold_size] for x in range(0, N, target_fold_size)]
-		print('Split data into {} folds'.format(folds))
-		print('...using fold {}'.format(this_fold + 1))
+		print(('Split data into {} folds'.format(folds)))
+		print(('...using fold {}'.format(this_fold + 1)))
 
 		# Recombine into training and testing
 		mols_train   = [x for fold in (folded_mols[:this_fold] + folded_mols[(this_fold + 1):])     for x in fold]
@@ -308,16 +308,16 @@ def get_data_one(data_label = '', shuffle_seed = None, batch_size = 1,
 		smiles_test  = folded_smiles[this_fold]
 
 		# Define validation set as random 10% of training
-		training_indices = range(len(mols_train))
+		training_indices = list(range(len(mols_train)))
 		np.random.shuffle(training_indices)
 		split = int(len(training_indices) * training_ratio)
 		mols_train,   mols_val    = [mols_train[i] for i in training_indices[:split]],   [mols_train[i] for i in training_indices[split:]]
 		y_train,      y_val       = [y_train[i] for i in training_indices[:split]],      [y_train[i] for i in training_indices[split:]]
 		smiles_train, smiles_val  = [smiles_train[i] for i in training_indices[:split]], [smiles_train[i] for i in training_indices[split:]]
 
-		print('Total training: {}'.format(len(mols_train)))
-		print('Total validation: {}'.format(len(mols_val)))
-		print('Total testing: {}'.format(len(mols_test)))
+		print(('Total training: {}'.format(len(mols_train))))
+		print(('Total validation: {}'.format(len(mols_val))))
+		print(('Total testing: {}'.format(len(mols_test))))
 
 	else:
 		print('Must specify a data_split type of "ratio" or "cv"')

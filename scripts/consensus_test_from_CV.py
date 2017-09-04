@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 from conv_qsar_fast.utils.parsing import input_to_bool
 from conv_qsar_fast.utils.parse_cfg import read_config
 import conv_qsar_fast.utils.reset_layers as reset_layers
@@ -123,7 +123,7 @@ if __name__ == '__main__':
 
 
 	ref_fpath = fpath
-	cv_folds = range(1, 6)
+	cv_folds = list(range(1, 6))
 	for cv_fold in cv_folds:
 		print('Using weights from CV fold {}'.format(cv_fold))
 		fpath = ref_fpath.replace('<this_fold>', str(cv_fold))
@@ -132,7 +132,7 @@ if __name__ == '__main__':
 		weights_fpath = fpath + '.h5'
 		model.load_weights(weights_fpath)
 
-		for j in tqdm(range(len(mols_train))):
+		for j in tqdm(list(range(len(mols_train)))):
 			single_mol_as_array = np.array(mols_train[j:j+1])
 			single_y_as_array = np.array(y_train[j:j+1])
 			spred = model.predict_on_batch(single_mol_as_array)

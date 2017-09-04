@@ -1,9 +1,9 @@
-from __future__ import print_function
+
 from conv_qsar_fast.utils.parsing import input_to_bool
 from conv_qsar_fast.utils.parse_cfg import read_config
 import conv_qsar_fast.utils.reset_layers as reset_layers
 import rdkit.Chem as Chem
-import cPickle as pickle
+import pickle as pickle
 import numpy as np
 import datetime
 import json
@@ -182,7 +182,7 @@ if __name__ == '__main__':
 			(train, val, test) = this_data
 			mols_train = train['mols']; y_train = train['y']; smiles_train = train['smiles']
 
-			indices = range(len(mols_train))
+			indices = list(range(len(mols_train)))
 			np.random.seed(data_kwargs['shuffle_seed'] + 1 + replicate_num * 100)
 			np.random.shuffle(indices)
 			cutoff = int(0.8 * len(indices))
@@ -313,7 +313,7 @@ if __name__ == '__main__':
 		##############################################
 		# Get best hyperparams now
 		best_MSE = min(dict(all_conditions_valMSE).values())
-		for conditionlabel in all_conditions_valMSE.keys():
+		for conditionlabel in list(all_conditions_valMSE.keys()):
 			if all_conditions_valMSE[conditionlabel] == best_MSE:
 				(depth, inner_rep, lr, dr) = all_conditions[conditionlabel]
 				break
@@ -325,7 +325,7 @@ if __name__ == '__main__':
 		fpath += 'BEST_depth{}_innersize{}_lr{}_dr{}'.format(depth, inner_rep, lr, dr)
 
 		with open(fpath + '.txt', 'w') as fid:
-			for conditionlabel in all_conditions_valMSE.keys():
+			for conditionlabel in list(all_conditions_valMSE.keys()):
 				fid.write('{} \t {} \t {}\n'.format(
 					conditionlabel, 
 					all_conditions_valMSE[conditionlabel] / float(NUM_REPLICATES_EACH_SETTING),

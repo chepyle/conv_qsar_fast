@@ -15,7 +15,7 @@ import os
 import sys
 
 fname = sys.argv[1]
-print('Processing file {}'.format(fname))
+print(('Processing file {}'.format(fname)))
 mols = []
 resids = []
 with open(fname, 'r') as fid:
@@ -34,7 +34,7 @@ fps = [AllChem.GetMorganFingerprint(x, 3) for x in mols]
 N = len(mols)
 similarities = np.zeros((N, N))
 for i in range(len(mols)):
-	print('Getting similarity score for {}'.format(i))
+	print(('Getting similarity score for {}'.format(i)))
 	for j in range(i + 1, len(mols)):
 		#similarity = DataStructs.FingerprintSimilarity(fps[i], fps[j])
 		similarity = DataStructs.DiceSimilarity(fps[i], fps[j])
@@ -44,10 +44,10 @@ for i in range(len(mols)):
 		if similarity == 1:
 			print(i)
 			print(j)
-			print(resids[i])
-			print(resids[j])
-			print(Chem.MolToSmiles(mols[i]))
-			print(Chem.MolToSmiles(mols[j]))
+			print((resids[i]))
+			print((resids[j]))
+			print((Chem.MolToSmiles(mols[i])))
+			print((Chem.MolToSmiles(mols[j])))
 
 sqresids = np.array([x ** 2 for x in resids])
 absresids = np.array([abs(x) for x in resids])
@@ -82,8 +82,8 @@ plt.clf()
 similarities_copy = similarities.copy()
 similarities_copy.sort()
 meas = np.sum(similarities_copy[:, -5:], axis = 1) / 5.
-print(meas.shape)
-print(similarities_copy).shape
+print((meas.shape))
+print((similarities_copy).shape)
 
 
 plt.scatter(meas, absresids, alpha = 0.5)

@@ -50,15 +50,15 @@ if __name__ == '__main__':
 		else:
 			ys = np.concatenate((ys, y))
 		if j % 500 == 0:
-			print('completed {} entries'.format(j))
+			print(('completed {} entries'.format(j)))
 		j += 1
 	
 	print(ys)
-	print(ys.shape)
+	print((ys.shape))
 	for i, target in enumerate(targets):
-		print('Target {} has {} entries; {} active'.format(
+		print(('Target {} has {} entries; {} active'.format(
 			target, sum(~np.isnan(ys[:, i])), np.sum(ys[~np.isnan(ys[:, i]), i])
-		))
+		)))
 		with open(os.path.join(
 				os.path.dirname(os.path.dirname(__file__)),
 				'data', '{}-test.smiles'.format(target.lower())

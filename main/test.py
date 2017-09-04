@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 import rdkit.Chem as Chem
 from conv_qsar_fast.utils.neural_fp import molToGraph
 import conv_qsar_fast.utils.stats as stats
@@ -43,19 +43,19 @@ def test_model(model, data, fpath, tstamp = 'no_time', batch_size = 128, return_
 
 	if batch_size == 1: # UNEVEN TENSORS, ONE AT A TIME PREDICTION
 		# Run through training set
-		for j in tqdm(range(len(mols_train))):
+		for j in tqdm(list(range(len(mols_train)))):
 			single_mol = mols_train[j]
 			spred = model.predict_on_batch([np.array([single_mol[0]]), np.array([single_mol[1]]), np.array([single_mol[2]])])		
 			y_train_pred.append(spred)
 
 		# Run through validation set
-		for j in tqdm(range(len(mols_val))):
+		for j in tqdm(list(range(len(mols_val)))):
 			single_mol = mols_val[j]
 			spred = model.predict_on_batch([np.array([single_mol[0]]), np.array([single_mol[1]]), np.array([single_mol[2]])])	
 			y_val_pred.append(spred)
 
 		# Run through testing set
-		for j in tqdm(range(len(mols_test))):
+		for j in tqdm(list(range(len(mols_test)))):
 			single_mol = mols_test[j]
 			spred = model.predict_on_batch([np.array([single_mol[0]]), np.array([single_mol[1]]), np.array([single_mol[2]])])	
 			y_test_pred.append(spred)
@@ -263,7 +263,7 @@ def test_embeddings_demo(model, fpath):
 	smiles = ''
 	print('**using molecular attributes**')
 	while True:
-		smiles = raw_input('Enter smiles: ').strip()
+		smiles = input('Enter smiles: ').strip()
 		if smiles == 'done':
 			break
 		try:

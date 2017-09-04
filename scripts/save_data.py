@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 import os
 from conv_qsar_fast.main.data import get_data_full
 
