@@ -1,11 +1,19 @@
 # conv_qsar_fast
-QSAR/QSPR using descriptor-free molecular embedding
+QSAR/QSPR using descriptor-free molecular embedding, updated to run for Python 3.
+
 
 ## Requirements
 This code relies on [Keras](http://keras.io/) for the machine learning framework, [Theano](http://deeplearning.net/software/theano/) for computations as its back-end, and [RDKit](http://www.rdkit.org/) for parsing molecules from SMILES strings. Plotting is done in [matplotlib](http://matplotlib.org/). All other required packages should be dependencies of Keras, Theano, or RDKit.
 
+## Before you run
+On Linux, be sure to set your environment variables, e.g.:
+
+`$ export PYTHONPATH=$PYTHONPATH:"/my/path/conv_qsar_fast"`
+
+`$ export KERAS_BACKEND="theano"`
+
 ## Basic use
-This code implements the tensor-based convolutional embedding strategy described in __placeholder__ for QSAR/QSPR tasks. The model architecture, training schedule, and data source are defined in a configuration file and trained using a cross-validation (CV). The basic architecture is as follows:
+This code implements the tensor-based convolutional embedding strategy described in [Coley 2017][1] for QSAR/QSPR tasks. The model architecture, training schedule, and data source are defined in a configuration file and trained using a cross-validation (CV). The basic architecture is as follows:
 
 - Pre-processing to convert a SMILES string into an attributed graph, then into an attributed adjacency tensor
 - Convolutional embedding layer, which takings a molecular tensor and produces a learned feature vector
@@ -20,7 +28,7 @@ Models are built, trained, and tested with the command
 python conv_qsar_fast/main/main_cv.py conv_qsar_fast/inputs/<input_file>.cfg
 ```
 
-Numerous example input files, corresponding the models described in __placeholder__ are included in `inputs`. These include models to be trained on full datasets, 5-fold CVs with internal validation and early stopping, 5-fold CVs without internal validation, models initialized with weights from other trained models, and multi-task models predicting on multiple data sets. Note that when using multi-task models, the `output_size` must be increased and the `loss` function must be `custom` to ensure `NaN` values are filtered out if not all inputs x have the full set of outputs y.
+Numerous example input files, corresponding the models described in [Coley 2017][1] are included in `inputs`. These include models to be trained on full datasets, 5-fold CVs with internal validation and early stopping, 5-fold CVs without internal validation, models initialized with weights from other trained models, and multi-task models predicting on multiple data sets. Note that when using multi-task models, the `output_size` must be increased and the `loss` function must be `custom` to ensure `NaN` values are filtered out if not all inputs x have the full set of outputs y.
 
 ## Data sets
 There are four available data sets in this version of the code contained in `data`:
@@ -48,3 +56,5 @@ Additional `.csv` data sets can be incorporated by adding an additional `elif` s
 
 #### Atom-level or bond-level attributes
 Additional atom- or bond-level attributes can be included by modifying `utils/neural_fp.py`, specifically the `bondAttributes` and `atomAttributes` functions. Because molecules are already stored as RDKit molecule objects, any property calculable in RDKit can easily be added.
+
+[1]: http://dx.doi.org/10.1021/acs.jcim.6b00601 "Coley et al. *Convolutional Embedding of Attributed Molecular Graphs for Physical Property Prediction*, J. Chem. Inf. Model., 2017, 57 (8), pp 1757–1772"
