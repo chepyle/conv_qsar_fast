@@ -37,6 +37,7 @@ There are four available data sets in this version of the code contained in `dat
 2. Delaney aqueous solubility data, from Delaney's 2004 paper.
 3. Bradley double plus good melting point data, from Bradley's open science notebook initiative.
 4. Tox21 data from the Tox21 Data Challenge 2014, describing toxicity against 12 targets.
+5. Hansen Ames mutagenicity data, Hansen 2009
 
 Because certain entries could not be unambiguously resolved into chemical structures, or because duplicates in the data sets were found, the effective data sets after processing are exported using `scripts/save_data.py` as `coley_abraham.tdf`, `coley_delaney.tdf`, `coley_bradley.tdf`, `coley_tox21.tdf`, and `coley_tox21-test.tdf`.
 
